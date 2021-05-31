@@ -26,15 +26,6 @@ services:
     ports:
       - 8080
 
-  init-mongodb:
-    image: okteto.dev/api:dev
-    command: yarn load && echo initialized && tail -f /dev/null
-    environment:
-      - MONGODB_USERNAME=okteto
-      - MONGODB_PASSWORD=mongodb123
-      - MONGODB_DATABASE=okteto
-      - MONGODB_HOST=mongodb
-
   mongodb:
     image: docker.io/bitnami/mongodb:4.0.12-debian-9-r43
     environment:
@@ -53,3 +44,6 @@ services:
 
 volumes:
   data:
+    annotations:
+      dev.okteto.com/from-snapshot-name: data-snapshot
+      dev.okteto.com/from-snapshot-namespace: pchico83
