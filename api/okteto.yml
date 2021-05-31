@@ -1,9 +1,7 @@
 name: api
-command: ["bash"]
+command: bash
 forward:
   - 8080:8080
   - 9229:9229
 sync:
   - .:/src
-persistentVolume:
-  enabled: false
