@@ -21,20 +21,10 @@ function startWithRetry() {
     const db = client.db(process.env.MONGODB_DATABASE);
 
     app.listen(8080, () => {
-      app.get("/api/healthz", (req, res, next) => {
-        res.sendStatus(200)
-        return;
-      });
-
       app.get("/api/movies", (req, res, next) => {
         console.log(`GET /api/movies`)
         db.collection('movies').find().toArray( (err, results) =>{
-          if (err){
-            console.log(`failed to query movies: ${err}`)
-            res.json([]);
-            return;
-          }
-          res.json([]); //results);
+          res.json([]);
         });
       });
 
