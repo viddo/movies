@@ -1,11 +1,12 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: frontend
   labels:
     {{- include "movies.labels" . | nindent 4 }}
     app.kubernetes.io/component: frontend
 spec:
+  serviceName: frontend
   replicas: {{ .Values.frontend.replicaCount }}
   selector:
     matchLabels:
