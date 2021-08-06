@@ -11,11 +11,7 @@ class App extends Component {
 
     this.state = {
       movies: {
-        data: {},
-        loaded: false
-      },
-      watching: {
-        data: {},
+        data: null,
         loaded: false
       },
       session: {
@@ -26,7 +22,6 @@ class App extends Component {
       },
       fixHeader: false
     };
-
     this.onScroll = this.onScroll.bind(this);
   }
 
@@ -34,6 +29,7 @@ class App extends Component {
     fetch('/api/movies')
       .then(res => res.json())
       .then(result => {
+        console.log(result);
         this.setState({
           movies: {
             data: result,
@@ -45,6 +41,7 @@ class App extends Component {
     fetch('/api/watching')
       .then(res => res.json())
       .then(result => {
+        console.log(result);
         this.setState({
           watching: {
             data: result,
@@ -67,26 +64,19 @@ class App extends Component {
   }
 
   render() {
-    const { movies, watching, session } = this.state;
+    const { movies, session } = this.state;
     return (
       <div className="App">
         <header className={`Header ${this.state.fixHeader ? 'fixed' : ''}`}>
           <div className="content">
-            <div className="logo">Movies</div>
-            <ul className="menu">
-              <li className="selected">Home</li>
-              <li>Movies</li>
-              <li>My List</li>
-            </ul>
+            <div className="logo">Movies App</div>
             <UserProfile user={session} />
           </div>
         </header>
-        <Hero />
-        <TitleList title="Movies" titles={movies.data} loaded={movies.loaded} />
         <TitleList
-          title={`Continue watching for ${session.name}`}
-          titles={watching.data}
-          loaded={watching.loaded}
+          title={`Trending Now`}
+          titles={movies.data}
+          loaded={movies.loaded}
         />
       </div>
     );
@@ -211,7 +201,13 @@ class TitleList extends Component {
         <div className="Title">
           <h1>{this.props.title}</h1>
           <div className="titles-slider">
-            {titles || <Loader />}
+            {titles === null && <Loader />}
+            {(titles && titles.length > 0) ?
+              titles :
+              <div className="titles-empty">
+                No movies found.
+              </div>
+            }
           </div>
         </div>
       </div>

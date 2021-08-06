@@ -1,13 +1,18 @@
 @import url("https://fonts.googleapis.com/css?family=Oswald:500");
 
+html {
+  height: 100%;
+}
+
 body {
-  --app-background-color: #141414;
-  --app-horizontal-margin: 65px;
+  --app-background-color: linear-gradient(180deg, rgb(41, 41, 41) 0%, rgba(20,20,20,1) 100%);
+  --app-horizontal-margin: 32px;
   --app-title-font: 'Oswald', serif;
   --app-normal-font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   background: var(--app-background-color);
   color: #ffffff;
   font-family: var(--app-normal-font);
+  height: 100%;
 }
 
 .App {
@@ -32,17 +37,10 @@ body {
 }
 
 .App .Header {
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, transparent 100%);
-  position: fixed;
-  top: 0;
-  left: 0;
+  /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, transparent 100%); */
   width: 100vw;
   box-sizing: border-box;
   z-index: 5;
-}
-
-.App .Header.fixed .content {
-  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .App .Header .content {
@@ -58,7 +56,7 @@ body {
   cursor: pointer;
   color: #ce1616;
   text-transform: uppercase;
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 500;
   font-family: var(--app-title-font);
   letter-spacing: -1.2px;
@@ -217,6 +215,11 @@ body {
   transition: opacity 3s ease;
   position: relative;
   z-index: 4;
+  margin-top: 14px;
+}
+
+.App .TitleList h1 {
+  font-size: 28px;
 }
 
 .App .TitleList .titles-slider {
@@ -226,13 +229,20 @@ body {
   position: relative;
 }
 
+.App .TitleList .titles-empty {
+  width: 100%;
+  margin-top: 24px;
+  font-size: 20px;
+  text-align: center;
+}
+
 .App .Item {
   display: inline-block;
   position: relative;
   cursor: pointer;
   transition: transform .3s ease-in-out;
   z-index: 20;
-  width: 25%;
+  width: 50%;
 }
 
 .App .Item:hover {
@@ -250,7 +260,7 @@ body {
 .App .Item .ItemContainer {
   background-color: #000000;
   background-position: center;
-  height: 13vw;
+  height: 24vw;
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
