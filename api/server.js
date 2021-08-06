@@ -34,20 +34,7 @@ function startWithRetry() {
             res.json([]);
             return;
           }
-          res.json(results);
-        });
-      });
-
-      app.get("/api/watching", (req, res, next) => {
-        console.log(`GET /api/watching`)
-        db.collection('movies').find().toArray( (err, results) =>{
-          if (err){
-            console.log(`failed to query watching: ${err}`)
-            res.json([]);
-            return;
-          }
-
-          res.json(results);
+          res.json([]); //results);
         });
       });
 

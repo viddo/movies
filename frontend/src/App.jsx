@@ -38,18 +38,6 @@ class App extends Component {
         });
       });
 
-    fetch('/api/watching')
-      .then(res => res.json())
-      .then(result => {
-        console.log(result);
-        this.setState({
-          watching: {
-            data: result,
-            loaded: true
-          }
-        });
-      });
-
     window.addEventListener('scroll', this.onScroll);
   }
 
