@@ -8,6 +8,11 @@ endpoints:
     service: movies-api
     port: 8080
 services:
+  builder:
+    image: builder
+    build:
+      context: .
+      dockerfile: okteto.Dockerfile
   movies-frontend:
     build: frontend
     ports:

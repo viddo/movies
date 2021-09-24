@@ -1,4 +1,4 @@
-FROM node:14 as dev
+FROM registry.staging.okteto.net/${OKTETO_NAMESPACE}/movies-builder:okteto as dev
 
 WORKDIR /src
 
