@@ -1,4 +1,7 @@
+ARG OKTETO_NAMESPACE
+
 FROM registry.staging.okteto.net/${OKTETO_NAMESPACE}/movies-builder:okteto as dev
+#FROM ${OKTETO_NAMESPACE}:latest as dev
 
 WORKDIR /src
 

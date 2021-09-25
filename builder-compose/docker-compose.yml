@@ -1,0 +1,9 @@
+services:
+  builder:
+    image: builder
+    build:
+      context: .
+      dockerfile: okteto.Dockerfile
+      args:
+        FROM_IMAGE: $FROM_IMAGE
+        IMAGE_TAG: $IMAGE_TAG

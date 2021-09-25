@@ -14,7 +14,12 @@ services:
       context: .
       dockerfile: okteto.Dockerfile
   movies-frontend:
-    build: frontend
+    build:
+      context: frontend
+      args:
+        OKTETO_NAMESPACE: $OKTETO_NAMESPACE
+    depends_on:
+      - builder
     ports:
       - 80
   movies-api:
