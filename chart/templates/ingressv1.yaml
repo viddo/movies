@@ -9,6 +9,7 @@ metadata:
     dev.okteto.com/generate-host: "true"
     divert.okteto.com/injection: "x-okteto-foo"
     nginx.ingress.kubernetes.io/configuration-snippet: "proxy_set_header my-test-header test-value;"
+    dev.okteto.com/auto-ingress: "private"
 spec:
   rules:
     - http:
