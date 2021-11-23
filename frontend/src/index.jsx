@@ -3,7 +3,7 @@ import React from 'react';
 import { render } from 'react-dom';
 
 import App from './App';
-import './index.css';
+import './index.scss';
 
 if (module.hot) {
   module.hot.accept();

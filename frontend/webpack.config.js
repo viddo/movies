@@ -36,6 +36,22 @@ module.exports = {
       include: srcPath,
       use: ['style-loader', 'css-loader']
     }, {
+      test: /\.(scss|sass)$/,
+      use: [{
+        loader: 'style-loader'
+      }, {
+        loader: 'css-loader',
+      }, {
+        loader: 'postcss-loader'
+      }, {
+        loader: 'sass-loader',
+        options: {
+          sassOptions: {
+            includePaths: [srcPath]
+          }
+        }
+      }]
+    }, {
       test: /\.(png|jpg|gif)$/i,
       use: [
         {

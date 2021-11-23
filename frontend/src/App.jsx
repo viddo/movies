@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import userAvatarImage from './assets/images/user.jpg';
 import movieBackground from './assets/images/movie-bg.jpg';
 
-import './App.css';
+import './App.scss';
 
 class App extends Component {
   constructor(props) {
