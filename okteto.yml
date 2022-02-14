@@ -1,0 +1,24 @@
+icon: https://apps.okteto.com/movies/icon.png
+build:
+  api:
+    context: api
+  frontend:
+    context: frontend
+  dev:
+    context: frontend
+    target: dev
+deploy:
+  - helm upgrade --install movies chart --set api.image=${OKTETO_BUILD_API_IMAGE} --set frontend.image=${OKTETO_BUILD_FRONTEND_IMAGE}
+dev:
+  api:
+    command: ["bash"]
+    forward:
+      - 8080:8080
+      - 9229:9229
+    sync:
+      - api:/usr/src/app
+  frontend:
+    image: ${OKTETO_BUILD_DEV_IMAGE}
+    command: yarn start
+    sync:
+      - frontend:/usr/src/app
