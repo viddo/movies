@@ -1,0 +1,16 @@
+{
+  "mappings": {
+    "dynamic": false,
+    "fields": {
+      "overview": [
+        {
+          "type": "autocomplete",
+          "tokenization": "edgeGram",
+          "minGrams": 2,
+          "maxGrams": 15,
+          "foldDiacritics": true
+        }
+      ]
+    }
+  }
+}
