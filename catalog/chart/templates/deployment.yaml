@@ -26,25 +26,25 @@ spec:
             - load
           env:
             - name: MONGODB_USERNAME
-              value: okteto
+              value: {{ .Values.mongodb.username }}
             - name: MONGODB_PASSWORD
-              value: okteto
+              value: {{ .Values.mongodb.password }}
             - name: MONGODB_DATABASE
-              value: okteto
+              value: {{ .Values.mongodb.database }}
             - name: MONGODB_HOST
-              value: mongodb
+              value: {{ .Values.mongodb.host }}
       containers:
         - name: catalog
           image: {{ .Values.image }}
           env:
             - name: MONGODB_USERNAME
-              value: okteto
+              value: {{ .Values.mongodb.username }}
             - name: MONGODB_PASSWORD
-              value: okteto
+              value: {{ .Values.mongodb.password }}
             - name: MONGODB_DATABASE
-              value: okteto
+              value: {{ .Values.mongodb.database }}
             - name: MONGODB_HOST
-              value: mongodb
+              value: {{ .Values.mongodb.host }}
           ports:
             - name: http
               containerPort: 8080
