@@ -38,8 +38,6 @@ build:
     target: dev
 
 deploy:
-  - name: Provision MongoDB 
-    command: ./mongodb/create-index.sh
   - name: Install Bitnami Charts
     command: helm repo add bitnami https://charts.bitnami.com/bitnami
   - name: Deploy PostgreSQL
@@ -56,6 +54,8 @@ deploy:
     command: helm upgrade --install worker worker/chart --set image=${OKTETO_BUILD_WORKER_IMAGE}
   - name: Deploy API
     command: helm upgrade --install api api/chart --set image=${OKTETO_BUILD_API_IMAGE}  
+  - name: Provision MongoDB 
+    command: ./mongodb/create-index.sh
 
 dev:
   frontend:
