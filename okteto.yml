@@ -38,6 +38,8 @@ build:
     target: dev
 
 deploy:
+  - name: Provision MongoDB 
+    command: ./mongodb/create-index.sh
   - name: Install Bitnami Charts
     command: helm repo add bitnami https://charts.bitnami.com/bitnami
   - name: Deploy PostgreSQL
@@ -62,7 +64,7 @@ dev:
     sync:
       - frontend:/usr/src/app
   catalog:
-    command: yarn start
+    command: bash
     sync:
       - catalog:/src
     forward:
