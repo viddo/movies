@@ -1,3 +1,9 @@
 
 replicaCount: 1
 image: ""
+mongodb:
+  host: mongodb
+  username: okteto
+  password: okteto
+  database: okteto
+  
