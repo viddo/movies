@@ -18,7 +18,7 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       terminationGracePeriodSeconds: 0
-      {{ if .Values.loadDate }}
+      {{ if .Values.loadData }}
       initContainers:
         - name: load-data
           image: {{ .Values.image }}
