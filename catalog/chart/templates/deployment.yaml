@@ -18,6 +18,7 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       terminationGracePeriodSeconds: 0
+      {{ if .Values.loadDate }}
       initContainers:
         - name: load-data
           image: {{ .Values.image }}
@@ -33,6 +34,7 @@ spec:
               value: {{ .Values.mongodb.database }}
             - name: MONGODB_HOST
               value: {{ .Values.mongodb.host }}
+      {{ end }}
       containers:
         - name: catalog
           image: {{ .Values.image }}
