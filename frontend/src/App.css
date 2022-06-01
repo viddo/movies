@@ -405,3 +405,8 @@ strong {
 .Loader svg rect {
   fill: var(--color-green);
 }
+
+.Search__input {
+  background-color: #ffffff;
+  color: #0D0C0F;
+}
