@@ -94,7 +94,7 @@ class App extends Component {
         <div className={`App__header ${this.state.fixHeader ? 'fixed' : ''}`}>
           <div className="App__logo">
             <MoviesIcon size="22" />
-            Movies
+            Moviessss
           </div>
           <Logo size="24" />
         </div>

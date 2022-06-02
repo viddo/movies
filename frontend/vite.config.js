@@ -2,16 +2,10 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  root: 'src',
-  build: {
-    outDir: '../dist',
-  },
+  publicDir: './src/public',
   plugins: [
     react({
-      include: '**/*.{jsx,tsx}',
-      babel: {
-        configFile: true,
-      },
+      include: '**/*.{jsx,tsx}'
     }),
   ],
   server: {
