@@ -99,7 +99,7 @@ class App extends Component {
           <Logo size="24" />
         </div>
 
-        {process.env.MODE === 'development' &&
+        {import.meta.env.MODE === 'development' &&
           <DevToast />
         }
 

@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import environment from 'vite-plugin-environment'
 
 export default defineConfig({
   root: 'src',
@@ -8,11 +7,11 @@ export default defineConfig({
     outDir: '../dist',
   },
   plugins: [
-    environment({
-      MODE: process.env?.MODE ?? 'production'
-    }),
     react({
       include: '**/*.{jsx,tsx}',
+      babel: {
+        configFile: true,
+      },
     }),
   ],
   server: {
