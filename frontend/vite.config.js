@@ -7,7 +7,6 @@ export default defineConfig({
   build: {
     outDir: '../dist',
   },
-  assetsInclude: ['src/assets/**/*'],
   plugins: [
     environment({
       MODE: 'dev'
@@ -17,16 +16,20 @@ export default defineConfig({
     }),
   ],
   server: {
+    host: '0.0.0.0',
     port: 80,
     strictPort: true,
     hmr: {
       clientPort: 443
     },
-    host: '0.0.0.0',
     proxy: {
       '/rent': 'http://rentals:8080/rent',
       '/rentals': 'http://rentals:8080/rentals',
       '/catalog': 'http://catalog:8080'
     },
+  },
+  preview: {
+    host: '0.0.0.0',
+    port: 80,
   }
 });
