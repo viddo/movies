@@ -9,7 +9,7 @@ export default defineConfig({
   },
   plugins: [
     environment({
-      MODE: 'dev'
+      MODE: process.env?.MODE ?? 'production'
     }),
     react({
       include: '**/*.{jsx,tsx}',
