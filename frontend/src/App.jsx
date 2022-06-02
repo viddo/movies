@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 import './App.css';
 
@@ -12,36 +12,34 @@ const financial = (x) => {
   return Number.parseFloat(x).toFixed(2);
 }
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+const App = () => {
+  const [catalog, setCatalog] = useState({
+    data: [],
+    loaded: false
+  });
 
-    this.state = {
-      catalog: {
-        data: [],
-        loaded: false
-      },
-      rental: {
-        data: [],
-        loaded: false
-      },
-      cost: 0,
-      session: {
-        name: 'Cindy',
-        lastName: 'Lopez',
-        username: 'cindy'
-      },
-      fixHeader: false
-    };
+  const [rental, setRental] = useState({
+    data: [],
+    loaded: false
+  });
 
-    this.appRef = React.createRef();
-  }
+  const [cost, setCost] = useState(0);
 
-  componentDidMount() {
-    this.refreshData();
-  }
+  const [session, setSession] = useState({
+    name: 'Cindy',
+    lastName: 'Lopez',
+    username: 'cindy'
+  });
 
-  handleRent = async (item) => {
+  const [fixHeader, setFixHeader] = useState(false);
+
+  const appRef = useRef();
+
+  useEffect(() => {
+    refreshData();
+  }, []);
+
+  const handleRent = async (item) => {
     await fetch('/rent', {
       method: 'POST',
       headers: {
@@ -52,10 +50,10 @@ class App extends Component {
         price: item.price
       })
     });
-    this.refreshData();
-  }
+    refreshData();
+  };
 
-  refreshData = async () => {
+  const refreshData = async () => {
     const catalogPromise = fetch('/catalog')
       .then(res => res.json())
       .then(result => compact(result));
@@ -65,93 +63,84 @@ class App extends Component {
       .then(result => compact(result));
 
     const [catalog, rentals] = await Promise.all([catalogPromise, rentalsPromise]);
-    this.setState({
-      rental: {
-        data: rentals,
-        loaded: true
-      },
-      catalog: {
-        data: catalog.map(movie => ({
-          ...movie,
-          rented: !!rentals.find(c => c.id === movie.id)
-        })),
-        loaded: true
-      },
-      cost: financial(rentals.reduce((acc, item) => acc += Number(item?.price ?? 0), 0))
+    setRental({
+      data: rentals,
+      loaded: true
     });
-  }
-
-  handleScroll = () => {
-    this.setState({
-      fixHeader: this.appRef.current.scrollTop > 20
+    setCatalog({
+      data: catalog.map(movie => ({
+        ...movie,
+        rented: !!rentals.find(c => c.id === movie.id)
+      })),
+      loaded: true
     });
-  }
+    setCost(financial(rentals.reduce((acc, item) => acc += Number(item?.price ?? 0), 0)));
+  };
 
-  render() {
-    const { catalog, rental, session, cost } = this.state;
-    return (
-      <div className="App" ref={this.appRef} onScroll={this.handleScroll}>
-        <div className={`App__header ${this.state.fixHeader ? 'fixed' : ''}`}>
-          <div className="App__logo">
-            <MoviesIcon size="22" />
-            Moviessss
-          </div>
-          <Logo size="24" />
+  const handleScroll = () => {
+    setFixHeader(appRef.current.scrollTop > 20);
+  };
+
+  return (
+    <div className="App" ref={appRef} onScroll={handleScroll}>
+      <div className={`App__header ${fixHeader ? 'fixed' : ''}`}>
+        <div className="App__logo">
+          <MoviesIcon size="22" />
+          Movies
         </div>
-
-        {import.meta.env.MODE === 'development' &&
-          <DevToast />
-        }
-
-        <div className="App__content">
-          {/* <div className="App__promo">
-            <KubeconLogo size="22" />
-            Kubecon 2022 special offer! Get a <strong>50% discount</strong> on all movies today!
-          </div> */}
-          <TitleList
-            title={`${session.name}'s movies`}
-            cost={cost}
-            titles={rental.data}
-            loaded={rental.loaded}
-          />
-          <TitleList
-            title="Store"
-            titles={catalog.data}
-            loaded={catalog.loaded}
-            onRent={this.handleRent}
-          />
-        </div>
+        <Logo size="24" />
       </div>
-    );
-  }
-}
 
+      {import.meta.env.MODE === 'development' &&
+        <DevToast />
+      }
 
-class Loader extends Component {
-  render() {
-    return (
-      <div className="Loader">
-        <svg version="1.1" id="loader" x="0px" y="0px"
-          width="40px"
-          height="40px"
-          viewBox="0 0 50 50"
-          style={{
-            enableBackground: 'new 0 0 50 50'
-          }}>
-          <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
-            <animateTransform attributeType="xml"
-              attributeName="transform"
-              type="rotate"
-              from="0 25 25"
-              to="360 25 25"
-              dur="0.6s"
-              repeatCount="indefinite"/>
-          </path>
-        </svg>
+      <div className="App__content">
+        {/* <div className="App__promo">
+          <KubeconLogo size="22" />
+          Kubecon 2022 special offer! Get a <strong>50% discount</strong> on all movies today!
+        </div> */}
+        <TitleList
+          label={`${session.name}'s movies`}
+          cost={cost}
+          titles={rental.data}
+          loaded={rental.loaded}
+        />
+        <TitleList
+          label="Store"
+          titles={catalog.data}
+          loaded={catalog.loaded}
+          onRent={handleRent}
+        />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+
+const Loader = () => {
+  return (
+    <div className="Loader">
+      <svg version="1.1" id="loader" x="0px" y="0px"
+        width="40px"
+        height="40px"
+        viewBox="0 0 50 50"
+        style={{
+          enableBackground: 'new 0 0 50 50'
+        }}>
+        <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+          <animateTransform attributeType="xml"
+            attributeName="transform"
+            type="rotate"
+            from="0 25 25"
+            to="360 25 25"
+            dur="0.6s"
+            repeatCount="indefinite"/>
+        </path>
+      </svg>
+    </div>
+  );
+};
 
 const DevToast = () => {
   return (
@@ -162,54 +151,47 @@ const DevToast = () => {
   );
 };
 
-class TitleList extends Component {
-  renderList() {
-    const { titles = [], loaded, onRent } = this.props;
+const TitleList = ({ titles = [], label, loaded, onRent, cost = 0 }) => {
+  const renderList = () => {
     const movies = titles.filter(item => !item?.rented);
 
-    if (loaded) {
-      if (movies.length === 0) {
-        return (
-          <div className="TitleList--empty">
-            {onRent && 'No movies left to rent.'}
-          </div>
-        );
-      }
-
-      return movies.map((item, i) => {
-        const backDrop = `/${item.backdrop_path}`;
-        return (
-          <Item
-            key={item.id}
-            item={item}
-            backdrop={backDrop}
-            onRent={onRent}
-          />
-        );
-      });
+    if (movies.length === 0) {
+      return (
+        <div className="TitleList--empty">
+          {onRent && 'No movies left to rent.'}
+        </div>
+      );
     }
+
+    return movies.map((item, i) => {
+      const backDrop = `/${item.backdrop_path}`;
+      return (
+        <Item
+          key={item.id}
+          item={item}
+          backdrop={backDrop}
+          onRent={onRent}
+        />
+      );
+    });
   }
 
-  render() {
-    const { titles, title, cost = 0 } = this.props;
-
-    return (
-      <div className="TitleList">
-        <div className="Title">
-          <h1>
-            {title}
-          </h1>
-          <div className="TitleList__slider">
-            {!!cost &&
-              <Cart cost={cost} titles={titles} />
-            }
-            {this.renderList() || <Loader />}
-          </div>
+  return (
+    <div className="TitleList">
+      <div className="Title">
+        <h1>
+          {label}
+        </h1>
+        <div className="TitleList__slider">
+          {!!cost &&
+            <Cart cost={cost} titles={titles} />
+          }
+          { loaded ? renderList() : <Loader />}
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 const Item = ({ item, onRent, backdrop }) => {
   return (
