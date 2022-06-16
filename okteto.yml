@@ -47,7 +47,7 @@ deploy:
   - name: Deploy Frontend
     command: helm upgrade --install frontend frontend/chart --set image=${OKTETO_BUILD_FRONTEND_IMAGE}
   - name: Deploy Catalog
-    command: helm upgrade --install catalog catalog/chart --set image=${OKTETO_BUILD_CATALOG_IMAGE} --set mongodb.host=cluster0.uxdumvy.mongodb.net --set mongodb.database="movies-${OKTETO_NAMESPACE}" --set mongodb.username=${MONGODB_USERNAME} --set mongodb.password=${MONGODB_PASSWORD}
+    command: helm upgrade --install catalog catalog/chart --set image=${OKTETO_BUILD_CATALOG_IMAGE} --set mongodb.host=arsh.faca143.mongodb.net --set mongodb.database="movies-${OKTETO_NAMESPACE}" --set mongodb.username=${MONGODB_USERNAME} --set mongodb.password=${MONGODB_PASSWORD}
   - name: Deploy Rent
     command: helm upgrade --install rent rent/chart --set image=${OKTETO_BUILD_RENT_IMAGE}
   - name: Deploy Worker
