@@ -1,3 +1,8 @@
-
+loadData: true
 replicaCount: 1
 image: ""
+mongodb:
+  host: mongodb:27017
+  username: okteto
+  password: okteto
+  database: okteto

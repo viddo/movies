@@ -28,18 +28,20 @@ deploy:
     command:  helm upgrade --install postgresql bitnami/postgresql -f postgresql/values.yml --version 10.16.2
   - name: Deploy Kafka
     command:  helm upgrade --install kafka bitnami/kafka -f kafka/values.yml --version 16.2.7
-  - name: Deploy MongoDB
-    command:  helm upgrade --install mongodb bitnami/mongodb -f mongodb/values.yml --version 12.1.15
+  # - name: Deploy MongoDB
+  #   command:  helm upgrade --install mongodb bitnami/mongodb -f mongodb/values.yml --version 12.1.15
   - name: Deploy Frontend
     command: helm upgrade --install frontend frontend/chart --set image=${OKTETO_BUILD_FRONTEND_IMAGE}
   - name: Deploy Catalog
-    command: helm upgrade --install catalog catalog/chart --set image=${OKTETO_BUILD_CATALOG_IMAGE}
+    command: helm upgrade --install catalog catalog/chart --set image=${OKTETO_BUILD_CATALOG_IMAGE} --set mongodb.host=arsh.faca143.mongodb.net --set mongodb.database="movies-${OKTETO_NAMESPACE}" --set mongodb.username=${MONGODB_USERNAME} --set mongodb.password=${MONGODB_PASSWORD}
   - name: Deploy Rent
     command: helm upgrade --install rent rent/chart --set image=${OKTETO_BUILD_RENT_IMAGE}
   - name: Deploy Worker
     command: helm upgrade --install worker worker/chart --set image=${OKTETO_BUILD_WORKER_IMAGE}
   - name: Deploy API
     command: helm upgrade --install api api/chart --set image=${OKTETO_BUILD_API_IMAGE}  
+  - name: Provision MongoDB 
+    command: ./mongodb/create-search-index.sh
 
 dev:
   frontend:

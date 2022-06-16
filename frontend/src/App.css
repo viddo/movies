@@ -288,7 +288,8 @@ strong {
     width: 180px;
   }
 
-  .Item__title, .Item__rating {
+  .Item__title,
+  .Item__rating {
     display: none;
   }
 }
@@ -404,4 +405,9 @@ strong {
 .Loader svg path,
 .Loader svg rect {
   fill: var(--color-green);
+}
+
+.Search__input {
+  background-color: #ffffff;
+  color: #0D0C0F;
 }

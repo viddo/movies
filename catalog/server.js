@@ -3,10 +3,10 @@ const mongo = require("mongodb").MongoClient;
 
 const app = express();
 
-const url = `mongodb://${process.env.MONGODB_USERNAME}:${encodeURIComponent(process.env.MONGODB_PASSWORD)}@${process.env.MONGODB_HOST}:27017/${process.env.MONGODB_DATABASE}`;
+const url = `mongodb+srv://${process.env.MONGODB_USERNAME}:${encodeURIComponent(process.env.MONGODB_PASSWORD)}@${process.env.MONGODB_HOST}/${process.env.MONGODB_DATABASE}`;
 
 function startWithRetry() {
-  mongo.connect(url, { 
+  mongo.connect(url, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     connectTimeoutMS: 1000,
@@ -26,10 +26,27 @@ function startWithRetry() {
         return;
       });
 
+      app.get("/catalog/search", (req, res, next) => {
+        const query = req.query.q;
+        const agg = [
+          { $search: { autocomplete: { query: query, path: "overview" } } },
+          { $limit: 20 },
+        ];
+
+        db.collection('catalog').aggregate(agg).toArray((err, results) => {
+          if (err) {
+            console.log(`failed to search movies: ${err}`)
+            res.json([]);
+            return;
+          }
+          res.json(results);
+        });
+      });
+
       app.get("/catalog", (req, res, next) => {
         console.log(`GET /catalog`)
-        db.collection('catalog').find().toArray( (err, results) =>{
-          if (err){
+        db.collection('catalog').find().toArray((err, results) => {
+          if (err) {
             console.log(`failed to query movies: ${err}`)
             res.json([]);
             return;
