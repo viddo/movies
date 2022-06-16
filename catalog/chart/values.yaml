@@ -1,4 +1,3 @@
-loadData: true
 replicaCount: 1
 image: ""
 mongodb:
