@@ -64,7 +64,7 @@ dev:
     sync:
       - frontend:/usr/src/app
   catalog:
-    command: bash
+    command: yarn start
     sync:
       - catalog:/src
     forward:
